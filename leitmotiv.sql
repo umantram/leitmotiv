@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.0
+-- version 4.7.4
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 15-12-2017 a las 16:37:30
--- Versión del servidor: 10.1.25-MariaDB
--- Versión de PHP: 7.1.7
+-- Tiempo de generación: 15-12-2017 a las 19:14:33
+-- Versión del servidor: 10.1.28-MariaDB
+-- Versión de PHP: 7.1.11
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `leitmotiv1`
+-- Base de datos: `leitmotiv`
 --
 
 -- --------------------------------------------------------
@@ -194,6 +194,18 @@ INSERT INTO `butacas` (`id`, `numbutaca`, `numfila`) VALUES
 (98, 336, 38),
 (99, 180, 11),
 (100, 48, 26);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `celebra`
+--
+
+CREATE TABLE `celebra` (
+  `id` int(11) NOT NULL,
+  `idfuncion` int(11) NOT NULL,
+  `idpuestaescena` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -23388,6 +23400,26 @@ CREATE TABLE `obra` (
   `idtipoespectaculo` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Volcado de datos para la tabla `obra`
+--
+
+INSERT INTO `obra` (`id`, `nombre`, `descripcion`, `prestigio`, `autor`, `costo`, `idcompañia`, `idtipoespectaculo`) VALUES
+(1, 'Circus', 'circo', 'alto', 'Pedro', '3000', 1, 1),
+(2, 'Cats', 'gatos', 'Bueno', 'Carlos', '4000', 2, 2);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `obrarealizapuestaescena`
+--
+
+CREATE TABLE `obrarealizapuestaescena` (
+  `id` int(11) NOT NULL,
+  `idobra` int(11) NOT NULL,
+  `idpuestaescena` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 -- --------------------------------------------------------
 
 --
@@ -23542,8 +23574,16 @@ CREATE TABLE `teatro` (
 
 CREATE TABLE `tipoespectaculo` (
   `id` int(11) NOT NULL,
-  `nombre` int(30) NOT NULL
+  `nombre` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `tipoespectaculo`
+--
+
+INSERT INTO `tipoespectaculo` (`id`, `nombre`) VALUES
+(1, 'Drma'),
+(2, 'Coemdia');
 
 -- --------------------------------------------------------
 
@@ -23600,6 +23640,12 @@ ALTER TABLE `butacas`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indices de la tabla `celebra`
+--
+ALTER TABLE `celebra`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indices de la tabla `cliente`
 --
 ALTER TABLE `cliente`
@@ -23652,6 +23698,12 @@ ALTER TABLE `localidad`
 -- Indices de la tabla `obra`
 --
 ALTER TABLE `obra`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `obrarealizapuestaescena`
+--
+ALTER TABLE `obrarealizapuestaescena`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -23735,116 +23787,151 @@ ALTER TABLE `ventaentradas`
 --
 ALTER TABLE `abono`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT de la tabla `actor`
 --
 ALTER TABLE `actor`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
 --
 -- AUTO_INCREMENT de la tabla `actorpuestaescena`
 --
 ALTER TABLE `actorpuestaescena`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT de la tabla `butacas`
 --
 ALTER TABLE `butacas`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=101;
+
+--
+-- AUTO_INCREMENT de la tabla `celebra`
+--
+ALTER TABLE `celebra`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT de la tabla `cliente`
 --
 ALTER TABLE `cliente`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
 --
 -- AUTO_INCREMENT de la tabla `compañia`
 --
 ALTER TABLE `compañia`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
+
 --
 -- AUTO_INCREMENT de la tabla `empleado`
 --
 ALTER TABLE `empleado`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
 --
 -- AUTO_INCREMENT de la tabla `empleadorealizatarea`
 --
 ALTER TABLE `empleadorealizatarea`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT de la tabla `espectadorabono`
 --
 ALTER TABLE `espectadorabono`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT de la tabla `funcion`
 --
 ALTER TABLE `funcion`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT de la tabla `insumo`
 --
 ALTER TABLE `insumo`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT de la tabla `obra`
 --
 ALTER TABLE `obra`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT de la tabla `obrarealizapuestaescena`
+--
+ALTER TABLE `obrarealizapuestaescena`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT de la tabla `obrarecibemantenimiento`
 --
 ALTER TABLE `obrarecibemantenimiento`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT de la tabla `organismo`
 --
 ALTER TABLE `organismo`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT de la tabla `puestaescena`
 --
 ALTER TABLE `puestaescena`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT de la tabla `puestaescenateatro`
 --
 ALTER TABLE `puestaescenateatro`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT de la tabla `subenciona`
 --
 ALTER TABLE `subenciona`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT de la tabla `tarea`
 --
 ALTER TABLE `tarea`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT de la tabla `tarifa`
 --
 ALTER TABLE `tarifa`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT de la tabla `teatro`
 --
 ALTER TABLE `teatro`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT de la tabla `tipoespectaculo`
 --
 ALTER TABLE `tipoespectaculo`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
 --
 -- AUTO_INCREMENT de la tabla `tipoespectador`
 --
 ALTER TABLE `tipoespectador`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT de la tabla `ventaentradas`
 --
 ALTER TABLE `ventaentradas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;COMMIT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
