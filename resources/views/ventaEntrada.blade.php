@@ -8,16 +8,10 @@
         <thead>
         <tr>
             <th>
-                Teatro
-            </th>
-            <th>
                 Obra
             </th>
             <th>
                 Funcion
-            </th>
-            <th>
-                Disponibilidad
             </th>
             <th>
                 Accion
@@ -28,23 +22,15 @@
         @foreach ($obras as $obra)
             <tr>
                 <td>
-                    {{ $obra->NombreTeatro }}
-                </td>
-                <td>
-                    {{ $obra->NombreObra }}
+                    {{ $obra->nombre }}
                 </td>
                 <td>
                     {{ $obra->fecharealizacion }}
                 </td>
                 <td>
-                    {{ $obra->Disponibilidad }}
-                </td>
-                <td>
                     <form action="venderentrada" method="GET">
-                        <input type="hidden" name="idPuuesta" value="{{$obra->puestaescenaId}}">
-                        <input type="hidden" name="idteatro" value="{{$obra->idTeatro}}">
-                        <input type="hidden" name="idobra" value="{{$obra->idObra}}">
-                        <button id="btn" type="submit" class="btn btn-outline-primary">Enviar</button>
+                        <input type="hidden" name="idfuncion" value="{{$obra->funcionId}}">
+                        <button id="btn" type="submit" class="btn btn-outline-primary">Comprar</button>
                     </form>
 
                 </td>

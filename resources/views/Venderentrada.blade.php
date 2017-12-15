@@ -8,13 +8,22 @@
         <div class="form-group">
             <label>Tarifa:</label>
             <select name="tarifa" id="tarifa">
-                @foreach($tarifas as $tarifa)
-                    <option value="{{$tarifa->tarifaId}}">Numero de Butaca:{{$tarifa->NumeroButaca}} Precio:{{$tarifa->precio}}</option>
-                @endforeach
-            </select>
+            @foreach($tarifas as $tarifa)
+                <option value="{{$tarifa->tarifaId}}">{{$tarifa->precio}}</option>
+            @endforeach
+        </select>
+         <div class="form-group">
+            <label>Numero de butaca:</label>
+            <select name="butaca" id="butaca">
+            @foreach($butacas as $butaca)
+                <option value="{{$butaca->id}}">{{$butaca->numbutaca}}</option>
+            @endforeach
+        </select>
+        
+        </div>
         </div>
         <div class="form-group">
-            <label>Tarifa:</label>
+            <label>Abonado:</label>
             <select name="abonado" id="abonado">
                 @foreach($abonados as $abonado)
                     <option value="{{$abonado->NumAbonado}}">Numero Abonado:{{$abonado->NumAbonado}}</option>
@@ -22,9 +31,8 @@
             </select>
         </div>
         <input type="hidden" name="fechaventa" value="{{\Carbon\Carbon::now()}}">
-        <input type="hidden" name="idPuuesta" value="{{$data->idPuuesta}}">
-        <input type="hidden" name="idteatro" value="{{$data->idteatro}}">
-        <input type="hidden" name="idobra" value="{{$data->idobra}}">
         <button type="submit" class="btn btn-primary">Aceptar</button>
+          <a href="/leitmotiv/public/" class="btn btn-outline-primary"> volver</a>
+
     </form>
 @endsection

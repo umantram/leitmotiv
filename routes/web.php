@@ -52,13 +52,98 @@ Route::get('/obras', function () {
 
 
 });
+//ya
 Route::post('/addobras', function () {
     //INSERT INTO `compañia`(`id`, `razonsocial`) VALUES ([value-1],[value-2])
     $data = (object) \Illuminate\Support\Facades\Input::All();
 
-    $companias=\Illuminate\Support\Facades\DB::insert("INSERT INTO obra( nombre,tipo, costo,fechaestreno, idcompañia) 
-VALUES ('$data->nombre','$data->tipo','$data->costo','$data->fechaestreno','$data->compania')");
+    $companias=\Illuminate\Support\Facades\DB::insert("INSERT INTO obra(nombre,descripcion,prestigio,autor,costo,idcompañia,idtipoespectaculo) 
+VALUES ('$data->nombre','$data->descripcion','$data->prestigio','$data->autor','$data->costo','$data->compania','$data->tipo')");
     return view('addobras',compact('companias'));
+
+
+/**
+
+SQL para el Alta
+
+INSERT INTO `obra`(`id`, `nombre`, `descripcion`, `prestigio`, `autor`, `costo`, `idcompañia`, `idtipoespectaculo`) VALUES ()
+
+es lo mismo solo falta agregarle descripcion.
+
+
+*/
+
+
+});
+Route::post('/addpuesta', function () {
+    //INSERT INTO `compañia`(`id`, `razonsocial`) VALUES ([value-1],[value-2])
+    $data = (object) \Illuminate\Support\Facades\Input::All();
+
+    $companias=\Illuminate\Support\Facades\DB::insert("INSERT INTO puestaescena(nombre,idobra) 
+VALUES ('$data->nombre','$data->obra')");
+    return view('addobras',compact('companias'));
+
+
+/**
+
+SQL para el Alta
+
+INSERT INTO `obra`(`id`, `nombre`, `descripcion`, `prestigio`, `autor`, `costo`, `idcompañia`, `idtipoespectaculo`) VALUES ()
+
+es lo mismo solo falta agregarle descripcion.
+
+
+*/
+
+
+});
+Route::post('/addfuncion', function () {
+    //INSERT INTO `compañia`(`id`, `razonsocial`) VALUES ([value-1],[value-2])
+    $data = (object) \Illuminate\Support\Facades\Input::All();
+
+    $companias=\Illuminate\Support\Facades\DB::insert("INSERT INTO funcion(fecharealizacion,idpuestaescena) 
+VALUES ('$data->fecha','$data->puesta')");
+    return view('addobras',compact('companias'));
+
+
+/**
+
+SQL para el Alta
+
+INSERT INTO `obra`(`id`, `nombre`, `descripcion`, `prestigio`, `autor`, `costo`, `idcompañia`, `idtipoespectaculo`) VALUES ()
+
+es lo mismo solo falta agregarle descripcion.
+
+
+*/
+
+
+});
+Route::get('/puesta', function () {
+    
+    $obras=\Illuminate\Support\Facades\DB::select("SELECT obra.id, obra.nombre from obra");
+    //dd($obras);
+    return view('puesta',compact('obras'));
+
+
+/**
+
+SQL para el Alta
+
+INSERT INTO `obra`(`id`, `nombre`, `descripcion`, `prestigio`, `autor`, `costo`, `idcompañia`, `idtipoespectaculo`) VALUES ()
+
+es lo mismo solo falta agregarle descripcion.
+
+
+*/
+
+
+});
+Route::get('/funcion', function () {
+    
+    $puestaobras=\Illuminate\Support\Facades\DB::select("SELECT puestaescena.id, puestaescena.nombre from puestaescena");
+    //dd($obras);
+    return view('funcion',compact('puestaobras'));
 
 
 /**
@@ -76,8 +161,8 @@ es lo mismo solo falta agregarle descripcion.
 });
 
 Route::get('/listaObra', function () {
-    $obras= (object) \Illuminate\Support\Facades\DB::select("SELECT obra.id as idObra, teatro.id as idTeatro, puestaescena.id as puestaescenaId, obra.nombre as NombreObra, puestaescena.fecharealizacion, teatro.nombre as NombreTeatro , (teatro.capacidad - COUNT(idObra)) as Disponibilidad FROM ventaentradas INNER JOIN puestaescena on ventaentradas.idpuestaescena = puestaescena.id INNER JOIN obra on puestaescena.idobra = obra.id INNER JOIN teatro on ventaentradas.idteatro = teatro.id GROUP BY obra.id, teatro.id , puestaescena.id , obra.nombre , puestaescena.fecharealizacion, teatro.nombre,leitmotiv.teatro.capacidad");
-  //  dd($obras);
+    $obras= (object) \Illuminate\Support\Facades\DB::select("SELECT obra.id, obra.nombre,funcion.id as funcionId, funcion.fecharealizacion from obra INNER JOIN puestaescena on obra.id = puestaescena.idobra INNER JOIN funcion on funcion.idpuestaescena = puestaescena.id");
+    //dd($obras);
     return view('ventaEntrada',compact('obras'));
 
 
@@ -86,7 +171,7 @@ Route::get('/listaObra', function () {
         Aca solo debe figurar la obra y las funciones nomas, vamos a sacarle la disponibilidad
 
         este es el SQL
-        
+
         SELECT obra.id, obra.nombre, funcion.fecharealizacion from obra INNER JOIN puestaescena on obra.id = puestaescena.idobra INNER JOIN funcion on funcion.idpuestaescena = puestaescena.id
 
 
@@ -98,10 +183,13 @@ Route::get('/listaObra', function () {
 
 Route::get('/venderentrada', function () {
     $data = (object) \Illuminate\Support\Facades\Input::All();
-    $tarifas = (object) \Illuminate\Support\Facades\DB::select("SELECT tarifa.id as tarifaId,tarifa.numerobutaca as NumeroButaca, tarifa.precio as precio FROM tarifa");
+    //dd($data);
+    $tarifas = (object) \Illuminate\Support\Facades\DB::select("SELECT tarifa.id as tarifaId,tarifa.precio as precio FROM tarifa INNER JOIN funcion on tarifa.idfuncion = funcion.id where funcion.id=".$data->idfuncion);
     $abonados = (object) \Illuminate\Support\Facades\DB::select("SELECT id as NumAbonado FROM espectadorabono");
+    $funciones = (object) \Illuminate\Support\Facades\DB::select("SELECT id,fecharealizacion FROM funcion");
+    $butacas = (object) \Illuminate\Support\Facades\DB::select("SELECT id,numbutaca FROM butacas");
         //dd($data);
-    return view('Venderentrada',compact('tarifas','abonados','data'));
+    return view('Venderentrada',compact('tarifas','abonados','funciones','data','butacas'));
 
     /**
 
@@ -126,8 +214,8 @@ Route::get('/venderentrada', function () {
 });
 Route::post('/confirmarEntrada', function () {
     $data = (object) \Illuminate\Support\Facades\Input::All();
-    $venta = \Illuminate\Support\Facades\DB::insert("INSERT INTO ventaentradas (idtarifa, idpuestaescena, idteatro, idespectadorabono, fecha)
-                                                                        VALUES ($data->tarifa,$data->idPuuesta,$data->idteatro,$data->abonado,'$data->fechaventa')");
+    $venta = \Illuminate\Support\Facades\DB::insert("INSERT INTO ventaentradas (idtarifa,idbutaca,idespectadorabono, fecha)
+                                                                        VALUES ($data->tarifa,$data->butaca,$data->abonado,'$data->fechaventa')");
     //dd($data);
     return view('ventasrealizada',compact('venta'));
 
@@ -145,29 +233,32 @@ Route::post('/confirmarEntrada', function () {
 });
 
 Route::get('/totVentasEntradas', function () {
-    $totVentas = (object) \Illuminate\Support\Facades\DB::select("SELECT obra.nombre, Sum(tarifa.precio) as suma 
-FROM `ventaentradas` INNER JOIN puestaescena on ventaentradas.idpuestaescena = puestaescena.id INNER JOIN obra on puestaescena.idobra = obra.id INNER JOIN tarifa on ventaentradas.idtarifa = tarifa.id 
-WHERE `fecha` BETWEEN '2017-11-01' and '2017-11-30'
-group by obra.nombre");
+    $totVentas = (object) \Illuminate\Support\Facades\DB::select("SELECT funcion.fecharealizacion, sum(tarifa.precio) as suma FROM `ventaentradas` INNER JOIN tarifa on ventaentradas.idtarifa = tarifa.id INNER JOIN funcion on tarifa.idfuncion = funcion.id WHERE `fecharealizacion` BETWEEN '2017-12-01' and '2017-12-30' GROUP BY funcion.fecharealizacion
+");
    // dd($totVentas);
     return view('totVentas',compact('totVentas'));
 });
 
+
+
+
+
 Route::get('/gastoObras', function () {
-   $gastObras = (object) \Illuminate\Support\Facades\DB::select("SELECT obra.nombre, Sum(obrarecibemantenimiento.gasto) as suma FROM `obra` INNER JOIN obrarecibemantenimiento on obra.id = obrarecibemantenimiento.idobra WHERE obrarecibemantenimiento.periodoinicio BETWEEN '2017-11-01' and '2017-11-30' group by obra.nombre");
+   $gastObras = (object) \Illuminate\Support\Facades\DB::select("SELECT obra.nombre, sum(obrarecibemantenimiento.gasto) as suma from obra INNER join puestaescena ON puestaescena.idobra = obra.id INNER JOIN obrarecibemantenimiento on obrarecibemantenimiento.idpuestaescena = puestaescena.id where obrarecibemantenimiento.periodoinicio BETWEEN '2017-12-01' and '2017-12-30' GROUP BY obra.nombre
+");
     //dd($gastObras);
     return view('gastObras',compact('gastObras'));
 });
-
+//ya
 Route::get('/listaObras', function () {
-   $obras = (object) \Illuminate\Support\Facades\DB::select("SELECT obra.nombre, obra.tipo, obra.costo, obra.fechaestreno, compañia.razonsocial FROM obra INNER JOIN compañia on obra.idcompañia = compañia.id");
+   $obras = (object) \Illuminate\Support\Facades\DB::select("SELECT obra.nombre, obra.descripcion, obra.prestigio, obra.autor, obra.costo, compañia.razonsocial, obra.idtipoespectaculo FROM obra INNER JOIN compañia on obra.idcompañia = compañia.id");
     //dd($obras);
     return view('totObras',compact('obras'));
 
     /**
     Esta Consulta va aca Falta Agregar en la Vista la Columna Descripcion
 
-    SELECT obra.nombre, obra.descripcion, obra.prestigio, obra.autor, obra.costo, compañia.razonsocial, tipoespectaculo.nombre ti FROM `obra` INNER JOIN compañia on obra.idcompañia = compañia.id INNER JOIN tipoespectaculo on obra.idtipoespectaculo = tipoespectaculo.id
+    SELECT obra.nombre, obra.descripcion, obra.prestigio, obra.autor, obra.costo, compañia.razonsocial, tipoespectaculo.nombre FROM `obra` INNER JOIN compañia on obra.idcompañia = compañia.id INNER JOIN tipoespectaculo on obra.idtipoespectaculo = tipoespectaculo.id
 
     */
 

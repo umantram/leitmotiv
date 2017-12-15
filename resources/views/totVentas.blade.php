@@ -8,10 +8,10 @@
         <thead>
         <tr>
             <th>
-                Nombre
+                Fecha Realizacion
             </th>
             <th>
-                Suma
+                Total
             </th>
         </tr>
         </thead>
@@ -19,7 +19,7 @@
         @foreach ($totVentas as $totVenta)
             <tr>
                 <td>
-                    {{ $totVenta->nombre}}
+                    {{ $totVenta->fecharealizacion}}
                 </td>
                 <td>
                     {{ $totVenta->suma }}
@@ -28,7 +28,7 @@
         @endforeach
         </tbody>
     </table>
-
+<a href="/leitmotiv/public/" class="btn btn-outline-primary"> volver</a>
     <script>
         $(".form_datetime").datetimepicker({format: 'yyyy-mm-dd'});
     </script>

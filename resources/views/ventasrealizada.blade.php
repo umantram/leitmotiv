@@ -7,5 +7,5 @@
 
         <lable>No se vendio correctamente</lable>
         @endif
-    <a href="leitmovi/public/">voler</a>
+    <a href="leitmotiv/public/">voler</a>
 @endsection

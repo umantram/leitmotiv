@@ -12,13 +12,13 @@
                 Nombre
             </th>
             <th>
+                Descripcion
+            </th>
+            <th>
                 Tipo
             </th>
             <th>
                 Costo
-            </th>
-            <th>
-                fechaestreno
             </th>
             <th>
                 razonsocial
@@ -30,15 +30,14 @@
             <tr>
                 <td>
                     {{ $obra->nombre}}
+                </td><td>
+                    {{ $obra->descripcion}}
                 </td>
                 <td>
-                    {{ $obra->tipo }}
+                    {{ $obra->idtipoespectaculo  }}
                 </td>
                 <td>
                     {{ $obra->costo }}
-                </td>
-                <td>
-                    {{ $obra->fechaestreno }}
                 </td>
                 <td>
                     {{ $obra->razonsocial }}
@@ -48,6 +47,7 @@
         </tbody>
     </table>
 
+        <a href="/leitmotiv/public/" class="btn btn-outline-primary"> volver</a>
     <script>
         $(".form_datetime").datetimepicker({format: 'yyyy-mm-dd'});
     </script>

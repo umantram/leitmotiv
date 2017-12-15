@@ -7,5 +7,5 @@
 
         <lable>No se agregó correctamente</lable>
         @endif
-    <a href="obras">voler</a>
+    <a href="/leitmotiv/public/">voler</a>
 @endsection
