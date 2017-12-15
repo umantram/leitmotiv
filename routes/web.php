@@ -83,7 +83,13 @@ Route::get('/listaObra', function () {
 
     /**
         
+        Aca solo debe figurar la obra y las funciones nomas, vamos a sacarle la disponibilidad
+
+        este es el SQL
         
+        SELECT obra.nombre, funcion.fecharealizacion FROM `obra` INNER JOIN obrarealizapuestaescena on obra.id = obrarealizapuestaescena.id INNER JOIN puestaescena on puestaescena.id = obrarealizapuestaescena.idpuestaescena INNER JOIN celebra on puestaescena.id = celebra.idpuestaescena INNER JOIN funcion ON celebra.idfuncion = funcion.id
+
+
     */
 
 
