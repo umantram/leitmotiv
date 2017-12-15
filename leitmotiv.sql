@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 15-12-2017 a las 19:14:33
+-- Tiempo de generación: 15-12-2017 a las 19:34:06
 -- Versión del servidor: 10.1.28-MariaDB
 -- Versión de PHP: 7.1.11
 
@@ -33,6 +33,15 @@ CREATE TABLE `abono` (
   `nombre` varchar(30) NOT NULL,
   `cantidadentradas` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `abono`
+--
+
+INSERT INTO `abono` (`id`, `nombre`, `cantidadentradas`) VALUES
+(1, '3 espectaculos', 3),
+(2, '8 espectaculos', 8),
+(3, 'Libre', 50);
 
 -- --------------------------------------------------------
 
@@ -194,18 +203,6 @@ INSERT INTO `butacas` (`id`, `numbutaca`, `numfila`) VALUES
 (98, 336, 38),
 (99, 180, 11),
 (100, 48, 26);
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `celebra`
---
-
-CREATE TABLE `celebra` (
-  `id` int(11) NOT NULL,
-  `idfuncion` int(11) NOT NULL,
-  `idpuestaescena` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -23411,18 +23408,6 @@ INSERT INTO `obra` (`id`, `nombre`, `descripcion`, `prestigio`, `autor`, `costo`
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `obrarealizapuestaescena`
---
-
-CREATE TABLE `obrarealizapuestaescena` (
-  `id` int(11) NOT NULL,
-  `idobra` int(11) NOT NULL,
-  `idpuestaescena` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
 -- Estructura de tabla para la tabla `obrarecibemantenimiento`
 --
 
@@ -23640,12 +23625,6 @@ ALTER TABLE `butacas`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indices de la tabla `celebra`
---
-ALTER TABLE `celebra`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indices de la tabla `cliente`
 --
 ALTER TABLE `cliente`
@@ -23698,12 +23677,6 @@ ALTER TABLE `localidad`
 -- Indices de la tabla `obra`
 --
 ALTER TABLE `obra`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `obrarealizapuestaescena`
---
-ALTER TABLE `obrarealizapuestaescena`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -23786,7 +23759,7 @@ ALTER TABLE `ventaentradas`
 -- AUTO_INCREMENT de la tabla `abono`
 --
 ALTER TABLE `abono`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `actor`
@@ -23805,12 +23778,6 @@ ALTER TABLE `actorpuestaescena`
 --
 ALTER TABLE `butacas`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=101;
-
---
--- AUTO_INCREMENT de la tabla `celebra`
---
-ALTER TABLE `celebra`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `cliente`
@@ -23859,12 +23826,6 @@ ALTER TABLE `insumo`
 --
 ALTER TABLE `obra`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- AUTO_INCREMENT de la tabla `obrarealizapuestaescena`
---
-ALTER TABLE `obrarealizapuestaescena`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `obrarecibemantenimiento`

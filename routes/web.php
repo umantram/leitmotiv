@@ -87,7 +87,7 @@ Route::get('/listaObra', function () {
 
         este es el SQL
         
-        SELECT obra.nombre, funcion.fecharealizacion FROM `obra` INNER JOIN obrarealizapuestaescena on obra.id = obrarealizapuestaescena.id INNER JOIN puestaescena on puestaescena.id = obrarealizapuestaescena.idpuestaescena INNER JOIN celebra on puestaescena.id = celebra.idpuestaescena INNER JOIN funcion ON celebra.idfuncion = funcion.id
+        SELECT obra.id, obra.nombre, funcion.fecharealizacion from obra INNER JOIN puestaescena on obra.id = puestaescena.idobra INNER JOIN funcion on funcion.idpuestaescena = puestaescena.id
 
 
     */
